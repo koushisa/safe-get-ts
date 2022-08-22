@@ -22,6 +22,9 @@ safeGet(obj, "root");
 // 'nestedObj'
 safeGet(obj, "root.key");
 
+// 2
+safeGet(obj, "root.nest1.nest2");
+
 // 'hoge'
 safeGet(obj, "arr.2.hoge");
 
