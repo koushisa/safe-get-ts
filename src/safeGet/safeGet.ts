@@ -26,15 +26,29 @@ import { FieldValues, FieldPath, FieldPathValue } from "./types";
 
 export function safeGet<
   TFieldValues extends FieldValues,
-  TFieldName extends FieldPath<TFieldValues>
+  TFieldName extends FieldPath<TFieldValues>,
+  TFieldPathValue extends FieldPathValue<TFieldValues, TFieldName>
 >(
   obj: TFieldValues,
   name: TFieldName,
-  defaultValue?: any
-): FieldPathValue<TFieldValues, TFieldName> {
-  if (!obj) {
-    return defaultValue;
+  defaultValue?: TFieldPathValue
+): TFieldPathValue {
+  if (obj === undefined && defaultValue !== undefined) {
+    return { ...defaultValue };
   }
+
+  return getValueByName(obj, name, defaultValue);
+}
+
+const getValueByName = <
+  TFieldValues extends FieldValues,
+  TFieldName extends FieldPath<TFieldValues>,
+  TFieldPathValue extends FieldPathValue<TFieldValues, TFieldName>
+>(
+  obj: TFieldValues,
+  name: TFieldName,
+  defaultValue?: TFieldPathValue
+): TFieldPathValue => {
   let props, prop;
   if (Array.isArray(name)) {
     props = name.slice(0);
@@ -50,13 +64,13 @@ export function safeGet<
   }
   while (props.length) {
     prop = props.shift();
-    if (!obj) {
+    if (obj === undefined && defaultValue !== undefined) {
       return defaultValue;
     }
     obj = obj[prop as any];
-    if (obj === undefined) {
+    if (obj === undefined && defaultValue !== undefined) {
       return defaultValue;
     }
   }
-  return obj as any;
-}
+  return obj as TFieldPathValue;
+};
