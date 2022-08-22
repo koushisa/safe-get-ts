@@ -1,5 +1,5 @@
 # safe-get-ts
-Created with CodeSandbox
+Created with CodeSandbox: https://codesandbox.io/s/github/koushisa/safe-get-ts
 
 ## SafeGet
 
