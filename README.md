@@ -2,6 +2,8 @@
 Created with CodeSandbox
 
 ```ts
+import { safeGet } from "./safeGet/safeGet";
+
 const nestedObj = { key: "nestedObj", nest1: { nest2: 2 } };
 const arr = [nestedObj, nestedObj, { hoge: "hoge" }] as const;
 
